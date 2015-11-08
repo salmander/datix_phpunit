@@ -7,26 +7,26 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 {
 	protected $db;
 
-	public function setUp ()
+	public function setUp()
 	{
 		$this->db = $this->getMockBuilder('DB')
-				         ->setMethods(['insert','delete','update','get'])
-				         ->getMock();
+             ->setMethods(['insert','delete','update','get'])
+             ->getMock();
 	}
 
-	public function testCreateUser ()
+	public function testCreateUser()
 	{
 		$username = 'john';
 		$password = 'pass123';
 
 		$this->db->expects($this->once())
-				->method('insert')
-				->with($username, md5($password));
+            ->method('insert')
+            ->with($username, md5($password));
 
 		NewUser($this->db, $username, $password);
 	}
 
-	public function testCreateUserWithShortPassword ()
+	public function testCreateUserWithShortPassword()
 	{
 		// If password is shorter than 6 chars, the user should not be created
 
@@ -34,13 +34,13 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 		$password = 'abc12';
 
 		$this->db->expects($this->never())
-				->method('insert');
+            ->method('insert');
 
 		NewUser($this->db, $username, $password);
 
 	}
 
-	public function testChangePassword ()
+	public function testChangePassword()
 	{
 		$username = 'john';
 		$newPassword = 'N3wpass!9';
@@ -58,7 +58,7 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 		ChangePassword($this->db, $username, $newPassword);
 	}
 
-	public function testChangePasswordWithShortPassword ()
+	public function testChangePasswordWithShortPassword()
 	{
 		// If the new password is shorter than 6 chars, it shouldn't be updated
 
@@ -88,7 +88,7 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 		ChangePassword($this->db, $username, $newPassword);
 	}
 
-	public function testDeleteUser ()
+	public function testDeleteUser()
 	{
 		$username = 'john';
 
@@ -101,30 +101,37 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
             ->method('delete')
             ->with($username);
 
-		DeleteUser ($this->db, $username);
+		DeleteUser($this->db, $username);
 	}
 
-	public function testDeleteNonExistingUser ()
+	public function testDeleteNonExistingUser()
 	{
 		// If user doesn't exist, we shouldn't try to delete it
 
 		$username = 'james';
 
-		$this->db->expects($this->once())->method('get')->with($username)->willReturn(null);
+		$this->db->expects($this->once())
+            ->method('get')
+            ->with($username)
+            ->willReturn(null);
 
-		$this->db->expects($this->never())->method('delete');
+		$this->db->expects($this->never())
+            ->method('delete');
 
-		DeleteUser ($this->db, $username);
+		DeleteUser($this->db, $username);
 	}
 
-	public function testUserDoesntExists ()
+	public function testUserDoesntExists()
 	{
 		// If we get no data about the user, assume it doesn't exist
 
 		$username = 'johnny';
 
-		$this->db->expects($this->once())->method('get')->with($username)->willReturn(null);
+		$this->db->expects($this->once())
+            ->method('get')
+            ->with($username)
+            ->willReturn(null);
 
-		$this->assertFalse (UserExists ($this->db, $username));
+		$this->assertFalse(UserExists($this->db, $username));
 	}
 }

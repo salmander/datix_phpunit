@@ -1,5 +1,17 @@
 Datix Technical Test
 
+    (See requirements below)
+
+Solution:
+
+    "src/User.php" contains refactored code from "legacyCode.php".
+
+    "tests/UserTest.php" contains all the tests from "TechnicalTest.php"
+    refactored for "User.php" class
+
+    Do not need to load src/User.php in UserTest.php test-case. Composer
+    uses autoloading to load User class.
+
 Requirements:
 
 	You'll need a computer with php (5.3.3 or greater) installed.
