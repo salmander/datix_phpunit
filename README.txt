@@ -3,7 +3,9 @@ Datix Technical Test
 Requirements:
 
 	You'll need a computer with php (5.3.3 or greater) installed.
-	Composer: Use http://getcomposer.org to install composer.
+
+	Composer: Use https://getcomposer.org to install composer.
+
 	You can use any editor/IDE you want and any operating system.
 
 	There's no time limit.
