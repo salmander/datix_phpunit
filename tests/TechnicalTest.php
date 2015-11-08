@@ -19,7 +19,9 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 		$username = 'john';
 		$password = 'pass123';
 
-		$this->db->expects($this->once())->method('insert')->with($username, md5($password));
+		$this->db->expects($this->once())
+				->method('insert')
+				->with($username, md5($password));
 
 		NewUser($this->db, $username, $password);
 	}
@@ -27,12 +29,12 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 	public function testCreateUserWithShortPassword ()
 	{
 		// If password is shorter than 6 chars, the user should not be created
-		$this->markTestIncomplete('To be implemented');
 
 		$username = 'john';
 		$password = 'abc12';
 
-		$this->db->expects($this->never())->method('insert');
+		$this->db->expects($this->never())
+				->method('insert');
 
 		NewUser($this->db, $username, $password);
 
@@ -43,47 +45,61 @@ class TechnicalTest extends PHPUnit_Framework_TestCase
 		$username = 'john';
 		$newPassword = 'N3wpass!9';
 
-		$this->db->expects($this->once())->method('update')->with($username, $newPassword);
+        // Mock that the user exists
+        $this->db->expects($this->once())
+            ->method('get')
+            ->with($username)
+            ->willReturn("something");
 
-		ChangePassword ($this->db, $username, $newPassword);
+		$this->db->expects($this->once())
+            ->method('update')
+            ->with($username, $newPassword);
+
+		ChangePassword($this->db, $username, $newPassword);
 	}
 
 	public function testChangePasswordWithShortPassword ()
 	{
 		// If the new password is shorter than 6 chars, it shouldn't be updated
 
-		$this->markTestIncomplete('To be implemented');
-
 		$username = 'john';
-		$newPassword = 'N3wpass!9';
+		$newPassword = 'N3w!9';
 
 		$this->db->expects($this->never())->method('update');
 
-		ChangePassword ($this->db, $username, $newPassword);
+		ChangePassword($this->db, $username, $newPassword);
 	}
 
 	public function testChangePasswordOfNonExistingUser()
 	{
 		// If user doesn't exist, the password should not be changed
-		$this->markTestIncomplete('To be implemented');
 
 		$username = 'john';
 		$newPassword = 'N3wpass!9';
 
-		$this->db->expects($this->once())->method('get')->with($username)->willReturn(null);
+		$this->db->expects($this->once())
+            ->method('get')
+            ->with($username)
+            ->willReturn(null);
 
-		$this->db->expects($this->never())->method('update');
+		$this->db->expects($this->never())
+            ->method('update');
 
-		ChangePassword ($this->db, $username, $newPassword);
+		ChangePassword($this->db, $username, $newPassword);
 	}
 
 	public function testDeleteUser ()
 	{
 		$username = 'john';
 
-		$this->db->expects($this->once())->method('get')->with($username)->willReturn("something");
+		$this->db->expects($this->once())
+            ->method('get')
+            ->with($username)
+            ->willReturn("something");
 
-		$this->db->expects($this->once())->method('delete')->with($username);
+		$this->db->expects($this->once())
+            ->method('delete')
+            ->with($username);
 
 		DeleteUser ($this->db, $username);
 	}
