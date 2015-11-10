@@ -1,7 +1,4 @@
-Datix Technical Test
-
-    (See requirements below)
-
+PHPUnit Exercise
 Solution:
 
     "src/User.php" contains refactored code from "legacyCode.php".
@@ -55,9 +52,3 @@ Extra points:
 	- Feel free to add improvements to the code / tests
 	- Extra points for following SOLID principles
 
-
-After you're done, please create a zip file of the DatixTest
-folder and send it back to us (please don't include the
-vendor/ directory because gmail will block it).
-
-You can add any other suggestions you might have to the email.
